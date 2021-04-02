@@ -2,6 +2,7 @@ const init = () => {
 console.log('%c HI', 'color: firebrick')
 dogImages();
 dogListAll();
+breedMenu().addEventListener('change', onChange)
 function dogImages() {
     fetch("https://dog.ceo/api/breeds/image/random/4")
     .then(function(response) {
@@ -19,10 +20,8 @@ function renderDogs(dogData) {
         imgContainer().appendChild(img)
     });
     }
-const imgContainer = () => document.getElementById('dog-image-container');
-
 function dogListAll() {
-fetch("https://dog.ceo/api/breeds/list/all")
+    fetch("https://dog.ceo/api/breeds/list/all")
     .then(function(response) {
       return response.json();
     })
@@ -30,16 +29,25 @@ fetch("https://dog.ceo/api/breeds/list/all")
       renderList(dogListAll);
     });
     }  
+// recreate dogListAll to be an array that gets passed into renderList 
+//so that it can be then parsed through to be alphabatized and then found
+//throught the drop down menu, and also only appear when each value
+//[a, b, c] is called
 function renderList(dogListAll) {
-    const listDogArray = dogListAll.message
+    const listDogArray = Object.keys(dogListAll.message)
     listDogArray.forEach(doggo => {
-        let listItems = document.createElement('li').src
-        listItems.src = doggo
+        let listItems = document.createElement('li')
+        listItems.innerText = doggo
         listContainer().appendChild(listItems)
     });
     }
-const listContainer = () => document.getElementById('dog-breeds');
+function onChange(e) {
+        
+    }
+    
 }
+const breedMenu = () => document.getElementById('breed-dropdown')
+const imgContainer = () => document.getElementById('dog-image-container');
+const listContainer = () => document.getElementById('dog-breeds');
 document.addEventListener('DOMContentLoaded', init);
-
-// const imgDrop = document.querySelector('body.breed-dropdown');
+// breedMenu().addEventListener('change', onChange)
